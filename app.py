@@ -24,10 +24,19 @@ db_name = 'Flipkart-Scrapper'
 app = Flask(__name__)  # initialising the flask app with the name 'app'
 
 #For selenium driver implementation on heroku
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument("disable-dev-shm-usage")
+#chrome_options = webdriver.ChromeOptions()
+#chrome_options.add_argument('--disable-gpu')
+#chrome_options.add_argument('--no-sandbox')
+#chrome_options.add_argument("disable-dev-shm-usage")
+
+# You will need to specify the binary location for Heroku
+option.binary_location = os.getenv('GOOGLE_CHROME_BIN')
+
+option.add_argument("--headless")
+option.add_argument('--disable-gpu')
+option.add_argument('--no-sandbox')
+browser = webdriver.Chrome(executable_path=os.getenv('CHROME_EXECUTABLE_PATH'), options=option)
+
 
 #To avoid the time out issue on heroku
 class threadClass:
