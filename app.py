@@ -3,6 +3,7 @@ import threading
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+import os
 
 from logger_class import getLog
 from flask import Flask, render_template, request, jsonify, Response, url_for, redirect
@@ -23,20 +24,17 @@ db_name = 'Flipkart-Scrapper'
 
 app = Flask(__name__)  # initialising the flask app with the name 'app'
 
+#chrome_options.add_argument("disable-dev-shm-usage")
 #For selenium driver implementation on heroku
 #chrome_options = webdriver.ChromeOptions()
 #chrome_options.add_argument('--disable-gpu')
 #chrome_options.add_argument('--no-sandbox')
-#chrome_options.add_argument("disable-dev-shm-usage")
 
-# You will need to specify the binary location for Heroku
-option.binary_location = os.getenv('GOOGLE_CHROME_BIN')
-
-option.add_argument("--headless")
-option.add_argument('--disable-gpu')
-option.add_argument('--no-sandbox')
-browser = webdriver.Chrome(executable_path=os.getenv('CHROME_EXECUTABLE_PATH'), options=option)
-
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
 
 #To avoid the time out issue on heroku
 class threadClass:
